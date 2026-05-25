@@ -119,3 +119,16 @@ SELECT * FROM t_employee WHERE eid % 2 = 0 AND address IS NOT NULL;
 SELECT * FROM t_employee WHERE gender = '女' OR salary < 5500;
 SELECT * FROM t_employee WHERE salary > 5000 AND FIND_IN_SET('上海',work_place) = 1 OR FIND_IN_SET('北京',work_place) = 1;
 SELECT * FROM t_employee WHERE email LIKE '%b%';
+SELECT * FROM t_employee WHERE MONTH(birthday) = MONTH(NOW()) AND DAY(birthday) = DAY(NOW());
+SELECT * FROM t_employee WHERE MONTH(birthday) = MONTH(NOW());
+SELECT * FROM t_employee WHERE MONTH(birthday) = MONTH(ADDDATE(NOW(),INTERVAL 1 MONTH));
+SELECT * FROM t_employee WHERE MONTH(birthday) = MONTH(NOW()) + 1;
+SELECT ename,salary,YEAR(now()) - YEAR(birthday) AS age FROM t_employee; 
+SELECT *,YEAR(now()) - YEAR(birthday) AS age FROM t_employee WHERE YEAR(now()) - YEAR(birthday) BETWEEN 25 AND 35;
+SELECT ename,salary,birthday,IF(YEAR(birthday) < 1990,salary * 1.1,salary * 1.05) AS newsalary FROM t_employee;
+SELECT eid,ename,IF(gender = '男','男员工','女员工') AS type FROM t_employee;
+SELECT ename,salary,salary * IFNULL(commission_pct,0) AS '奖金数额' FROM t_employee;
+SELECT ename,gender,CASE 
+    WHEN gender = '男' THEN 2000 * IFNULL(commission_pct,0.1) 
+    ELSE  3000 * IFNULL(commission_pct,0.1)
+END AS '补助金额' FROM t_employee;
